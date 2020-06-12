@@ -18,7 +18,7 @@ class MovieReviewDataset(data.Dataset):
                     _data = [config.word2id[word] for word in sp[1:]]
                     _data = _data + [0] * (config.max_seq_len - len(_data))
                     self.dataset.append(t.LongTensor(_data))
-                    self.labels.append([1., 0.] if sp[0] == '1' else [0., 1.])
+                    self.labels.append(t.LongTensor([1., 0.] if sp[0] == '1' else [0., 1.]))
 
                 except Exception as e:
                     print(e)

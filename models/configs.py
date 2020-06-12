@@ -18,7 +18,7 @@ class TextCNNConfig(object):
     vocab_size = 59290
     embedding_dim = 50
     dropout = 0.5
-    filter_sizes = (2, 3, 4)  # 卷积核尺寸
+    filter_sizes = (2, 3, 4)
     num_filters = 256
 
     seed = 10
@@ -46,7 +46,7 @@ class AttTextCNNConfig(object):
     vocab_size = 59290
     embedding_dim = 50
     dropout = 0.5
-    filter_sizes = (2, 3, 4)  # 卷积核尺寸
+    filter_sizes = (2, 3, 4)
     num_filters = 256
     attention_size = num_filters * len(filter_sizes)
 
