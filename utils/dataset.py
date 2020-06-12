@@ -2,6 +2,7 @@ from torch.utils import data
 import torch as t
 import numpy as np
 
+
 class MovieReviewDataset(data.Dataset):
 
     def __init__(self, root_path, config):

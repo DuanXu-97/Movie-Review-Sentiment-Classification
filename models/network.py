@@ -31,7 +31,7 @@ class TextCNN(BasicModule):
         self.fc = nn.Linear(config.num_filters * len(config.filter_sizes), config.num_classes)
 
     def forward(self, x):
-        x = self.embedding(x)
+        x = self.embedding(x).float()
         x = x.unsqueeze(1)
 
         out = []
