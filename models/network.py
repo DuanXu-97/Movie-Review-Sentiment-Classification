@@ -80,7 +80,7 @@ class AttTextCNN(BasicModule):
 
     def forward(self, x):
         x = self.embedding(x)
-        x = x.clone().detach()
+        x = x.clone().detach().float()
         x = x.unsqueeze(1)
         out = []
         for conv in self.conv_layers:
