@@ -66,13 +66,13 @@ def train(args):
 
             optimizer.zero_grad()
             train_data = t.from_numpy(np.array([data.numpy() for data in train_data]))
-            input = Variable(train_data)
 
             if args.use_gpu:
-                input = input.cuda()
+                train_data = train_data.cuda()
                 train_target = train_target.cuda()
 
-            train_logits, train_output = model(input)
+            train_data, train_target = Variable(train_data), Variable(train_target)
+            train_logits, train_output = model(train_data)
             train_loss = criterion(train_logits, train_target)
             train_loss.backward()
             optimizer.step()
@@ -91,9 +91,13 @@ def train(args):
 
         for _iter, (validation_data, validation_target) in enumerate(validation_dataloader):
 
+            validation_data = t.from_numpy(np.array([data.numpy() for data in validation_data]))
+
             if args.use_gpu:
                 validation_data = validation_data.cuda()
                 validation_target = validation_target.cuda()
+
+            validation_data, validation_target = Variable(validation_data), Variable(validation_target)
 
             validation_logits, validation_output = model(validation_data)
             validation_loss = criterion(validation_logits, validation_target)
