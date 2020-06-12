@@ -71,7 +71,6 @@ def train(args):
             if args.use_gpu:
                 train_data = train_data.cuda()
                 train_target = train_target.cuda()
-                print(type(train_data))
 
             train_data, train_target = Variable(train_data), Variable(train_target)
             train_logits, train_output = model(train_data)

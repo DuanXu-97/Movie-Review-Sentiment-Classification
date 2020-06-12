@@ -3,7 +3,7 @@ class TextCNNConfig(object):
     model = 'TextCNN'
     load_model_path = None
     use_gpu = True
-    num_workers = 2
+    num_workers = 1
     print_freq = 10
     num_classes = 2
     embedding_pretrained = None
@@ -31,7 +31,7 @@ class AttTextCNNConfig(object):
     model = 'AttTextCNN'
     load_model_path = None
     use_gpu = True
-    num_workers = 2
+    num_workers = 1
     print_freq = 10
     num_classes = 2
     embedding_pretrained = None
