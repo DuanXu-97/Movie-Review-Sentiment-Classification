@@ -138,7 +138,7 @@ def train(args):
             dist_to_best = 0
 
         dist_to_best += 1
-        if dist_to_best > 4:
+        if dist_to_best > 15:
             break
 
     model.save(path=os.path.join(args.ckpts_dir, 'model.pth'))
