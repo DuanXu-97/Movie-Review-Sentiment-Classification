@@ -66,7 +66,7 @@ def train(args):
 
             optimizer.zero_grad()
             train_data = t.from_numpy(np.array([data.numpy() for data in train_data]))
-
+            train_target = t.max(train_target, 1)[1]
             if args.use_gpu:
                 train_data = train_data.cuda()
                 train_target = train_target.cuda()
@@ -92,6 +92,7 @@ def train(args):
         for _iter, (validation_data, validation_target) in enumerate(validation_dataloader):
 
             validation_data = t.from_numpy(np.array([data.numpy() for data in validation_data]))
+            validation_target = t.max(validation_target, 1)[1]
 
             if args.use_gpu:
                 validation_data = validation_data.cuda()
