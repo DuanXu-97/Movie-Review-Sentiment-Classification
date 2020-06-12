@@ -67,9 +67,12 @@ def train(args):
             optimizer.zero_grad()
             train_data = t.from_numpy(np.array([data.numpy() for data in train_data]))
             train_target = t.max(train_target, 1)[1]
+            
             if args.use_gpu:
                 train_data = train_data.cuda()
                 train_target = train_target.cuda()
+                print(type(train_data))
+
 
             train_data, train_target = Variable(train_data), Variable(train_target)
             train_logits, train_output = model(train_data)
