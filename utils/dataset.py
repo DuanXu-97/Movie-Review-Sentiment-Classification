@@ -13,15 +13,16 @@ class MovieReviewDataset(data.Dataset):
         with open(root_path, encoding='utf-8') as f:
 
             for line in f.readlines():
-                try:
-                    sp = line.strip().split()
-                    _data = [config.word2id[word] for word in sp[1:]]
-                    _data = _data + [0] * (config.max_seq_len - len(_data))
-                    self.dataset.append(t.LongTensor(_data))
-                    self.labels.append(t.LongTensor([1., 0.] if sp[0] == '1' else [0., 1.]))
+                if line.strip():
+                    try:
+                        sp = line.strip().split()
+                        _data = [config.word2id[word] for word in sp[1:]]
+                        _data = _data + [0] * (config.max_seq_len - len(_data))
+                        self.dataset.append(t.LongTensor(_data))
+                        self.labels.append(t.LongTensor([1., 0.] if sp[0] == '1' else [0., 1.]))
 
-                except Exception as e:
-                    print(e)
+                    except Exception as e:
+                        print(e)
 
     def __getitem__(self, index):
         return self.dataset[index], self.labels[index]
