@@ -80,9 +80,8 @@ class AttTextCNN(BasicModule):
 
     def forward(self, x):
         x = self.embedding(x)
-        x = t.tensor(x, dtype=t.float32)
+        x = x.clone().detach()
         x = x.unsqueeze(1)
-        print(x.size())
         out = []
         for conv in self.conv_layers:
             _x = F.relu(conv(x)).squeeze(3)
@@ -90,7 +89,6 @@ class AttTextCNN(BasicModule):
             out.append(_x)
 
         x = t.cat(out, 1)
-        print(x.size())
         x = self.attention(x)
         x = self.dropout(x)
         logits = self.fc(x)
