@@ -74,7 +74,6 @@ def test(args):
 
         if args.use_gpu:
             test_data = test_data.cuda()
-            test_label = test_label.cuda()
 
         test_data, test_label = Variable(test_data), Variable(test_label)
 
