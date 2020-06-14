@@ -9,6 +9,8 @@ from sklearn.metrics import precision_score, recall_score, f1_score
 from models import network
 from utils.dataset import MovieReviewDataset
 from models import configs
+from utils.preprocess import *
+from torch.autograd import Variable
 
 
 def cal_metrics(y_true, y_pred):
@@ -44,10 +46,15 @@ def cal_metrics(y_true, y_pred):
 def test(args):
 
     config = getattr(configs, args.model + 'Config')()
-    model = getattr(network, args.model)(config).eval()
+
+    config.word2id = build_word2id([config.train_path, config.validation_path, config.test_path])
+    config.embedding_pretrained = t.from_numpy(build_word2vec(config.embedding_pretrained_path, config.word2id))
+    config.max_seq_len = get_max_len([config.train_path, config.validation_path, config.test_path])
 
     test_set = MovieReviewDataset(root_path=config.test_path, config=config)
     test_dataloader = DataLoader(test_set, batch_size=config.batch_size, shuffle=False, num_workers=config.num_workers)
+
+    model = getattr(network, args.model)(config).eval()
 
     if args.load_model_path:
         model.load(args.load_model_path)
@@ -62,8 +69,14 @@ def test(args):
     model.eval()
     for _iter, (test_data, test_label) in enumerate(test_dataloader):
 
+        test_data = t.from_numpy(np.array([data.numpy() for data in test_data]))
+        test_label = t.max(test_label, 1)[1]
+
         if args.use_gpu:
             test_data = test_data.cuda()
+            test_label = test_label.cuda()
+
+        test_data, test_label = Variable(test_data), Variable(test_label)
 
         test_logits, test_output = model(test_data)
         y_true.extend(test_label.numpy().tolist())
